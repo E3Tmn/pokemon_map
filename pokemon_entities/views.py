@@ -80,6 +80,7 @@ def show_pokemon(request, pokemon_id):
             pokemon_on_page.setdefault('pokemon_id', pokemon.id)
             pokemon_on_page.setdefault('img_url', request.build_absolute_uri(pokemon.photo.url))
             pokemon_on_page.setdefault('title_ru', pokemon.title)
+            pokemon_on_page.setdefault('description', pokemon.description)
             break
     else:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
