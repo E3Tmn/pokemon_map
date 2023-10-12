@@ -39,7 +39,6 @@ def show_all_pokemons(request):
                                                        disappeared_at__gt=time
                                                        )
         for pokemon_entity in pokemon_entities:
-            print(pokemon_entity.lat)
             add_pokemon(
                 folium_map, pokemon_entity.lat,
                 pokemon_entity.lon,
@@ -83,6 +82,13 @@ def show_pokemon(request, pokemon_id):
             pokemon_on_page.setdefault('title_en', pokemon.title_en)
             pokemon_on_page.setdefault('title_jp', pokemon.title_jp)
             pokemon_on_page.setdefault('description', pokemon.description)
+            if pokemon.parent:
+                previous_evolution = {
+                    'title_ru': pokemon.parent.title,
+                    "pokemon_id": pokemon.parent.id ,
+                    "img_url": request.build_absolute_uri(pokemon.parent.photo.url)
+                }
+                pokemon_on_page.setdefault('previous_evolution', previous_evolution)
             break
     else:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
