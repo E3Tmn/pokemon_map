@@ -82,6 +82,13 @@ def show_pokemon(request, pokemon_id):
             pokemon_on_page.setdefault('title_en', pokemon.title_en)
             pokemon_on_page.setdefault('title_jp', pokemon.title_jp)
             pokemon_on_page.setdefault('description', pokemon.description)
+            if pokemon.next_evolutions.first():
+                next_evolution = {
+                    "title_ru": pokemon.next_evolutions.first().title,
+                    "pokemon_id": pokemon.next_evolutions.first().id,
+                    "img_url": request.build_absolute_uri(pokemon.next_evolutions.first().photo.url)
+                }
+                pokemon_on_page.setdefault('next_evolution', next_evolution)
             if pokemon.parent:
                 previous_evolution = {
                     'title_ru': pokemon.parent.title,
@@ -89,6 +96,7 @@ def show_pokemon(request, pokemon_id):
                     "img_url": request.build_absolute_uri(pokemon.parent.photo.url)
                 }
                 pokemon_on_page.setdefault('previous_evolution', previous_evolution)
+            
             break
     else:
         return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
