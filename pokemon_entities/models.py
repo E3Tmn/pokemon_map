@@ -8,10 +8,12 @@ class Pokemon(models.Model):
     title_en = models.CharField(
         verbose_name="Название покемона на английском",
         null=True,
+        blank=True,
         max_length=200)
     title_jp = models.CharField(
         verbose_name="Название покемона на японском",
         null=True,
+        blank=True,
         max_length=200)
     description = models.TextField(
         verbose_name="Описание",
@@ -19,8 +21,7 @@ class Pokemon(models.Model):
     photo = models.ImageField(
         verbose_name="Фото",
         upload_to='media',
-        null=True,
-        blank=True)
+        null=True)
     parent = models.ForeignKey(
         "self",
         verbose_name="Из кого эволюционировал",
@@ -40,14 +41,8 @@ class PokemonEntity(models.Model):
         on_delete=models.CASCADE)
     lat = models.FloatField(verbose_name="Широта")
     lon = models.FloatField( verbose_name="Долгота")
-    appeared_at = models.DateTimeField(
-        verbose_name="Время появления",
-        null=True,
-        blank=True)
-    disappeared_at = models.DateTimeField(
-        verbose_name="Время исчезновения",
-        null=True,
-        blank=True)
+    appeared_at = models.DateTimeField(verbose_name="Время появления", null=True)
+    disappeared_at = models.DateTimeField(verbose_name="Время исчезновения", null=True)
     level = models.IntegerField(verbose_name="Уровень", null=True, blank=True)
     health = models.IntegerField(verbose_name="Здоровье", null=True, blank=True)
     strength = models.IntegerField(verbose_name="Сила", null=True, blank=True)
