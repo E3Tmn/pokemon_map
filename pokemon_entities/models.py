@@ -27,7 +27,6 @@ class Pokemon(models.Model):
         verbose_name="Из кого эволюционировал",
         on_delete=models.CASCADE,
         null=True,
-        blank=True,
         related_name='next_evolutions')
 
     def __str__(self):
