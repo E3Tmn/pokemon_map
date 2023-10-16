@@ -1,8 +1,6 @@
 import folium
-import json
 
-from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Pokemon, PokemonEntity
 import datetime
 from django.utils import timezone
@@ -60,7 +58,7 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    pokemon = Pokemon.objects.filter(id=pokemon_id)[0]
+    pokemon = get_object_or_404(Pokemon, id=pokemon_id)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     time = datetime.datetime.now(tz=timezone.utc)
     pokemon_on_page = {}
