@@ -7,17 +7,13 @@ class Pokemon(models.Model):
         max_length=200)
     title_en = models.CharField(
         verbose_name="Название покемона на английском",
-        null=True,
         blank=True,
         max_length=200)
     title_jp = models.CharField(
         verbose_name="Название покемона на японском",
-        null=True,
         blank=True,
         max_length=200)
-    description = models.TextField(
-        verbose_name="Описание",
-        null=True)
+    description = models.TextField(verbose_name="Описание")
     photo = models.ImageField(
         verbose_name="Фото",
         upload_to='media',
@@ -30,7 +26,7 @@ class Pokemon(models.Model):
         related_name='next_evolutions')
 
     def __str__(self):
-        return '{}'.format(self.title)
+        return self.title
     
 
 class PokemonEntity(models.Model):
@@ -49,4 +45,4 @@ class PokemonEntity(models.Model):
     stamina = models.IntegerField(verbose_name="Выносливость", null=True, blank=True)
 
     def __str__(self):
-        return '{}'.format(self.pokemon)
+        return self.pokemon
