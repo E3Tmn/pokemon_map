@@ -18,7 +18,7 @@ class Pokemon(models.Model):
         verbose_name="Фото",
         upload_to='media',
         null=True)
-    parent = models.ForeignKey(
+    previous_evolution = models.ForeignKey(
         "self",
         verbose_name="Из кого эволюционировал",
         on_delete=models.CASCADE,

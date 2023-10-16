@@ -61,7 +61,6 @@ def show_pokemon(request, pokemon_id):
     pokemon = get_object_or_404(Pokemon, id=pokemon_id)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
     time = datetime.datetime.now(tz=timezone.utc)
-    pokemon_on_page = {}
     requested_pokemons = PokemonEntity.objects.filter(pokemon=pokemon,
                                                 appeared_at__lt=time,
                                                 disappeared_at__gt=time
@@ -72,12 +71,14 @@ def show_pokemon(request, pokemon_id):
             pokemon_entity.lon,
             request.build_absolute_uri(pokemon_entity.pokemon.photo.url),
         )
-    pokemon_on_page.setdefault('pokemon_id', pokemon.id)
-    pokemon_on_page.setdefault('img_url', request.build_absolute_uri(pokemon.photo.url))
-    pokemon_on_page.setdefault('title_ru', pokemon.title)
-    pokemon_on_page.setdefault('title_en', pokemon.title_en)
-    pokemon_on_page.setdefault('title_jp', pokemon.title_jp)
-    pokemon_on_page.setdefault('description', pokemon.description)
+    pokemon_on_page = {
+        'pokemon_id': pokemon.id,
+        'img_url': request.build_absolute_uri(pokemon.photo.url),
+        'title_ru': pokemon.title,
+        'title_en': pokemon.title_en,
+        'title_jp': pokemon.title_jp,
+        'description': pokemon.description
+    }
     if pokemon.next_evolutions.first():
         next_evolution = {
             "title_ru": pokemon.next_evolutions.first().title,
@@ -85,11 +86,11 @@ def show_pokemon(request, pokemon_id):
             "img_url": request.build_absolute_uri(pokemon.next_evolutions.first().photo.url)
         }
         pokemon_on_page.setdefault('next_evolution', next_evolution)
-    if pokemon.parent:
+    if pokemon.previous_evolution:
         previous_evolution = {
-            'title_ru': pokemon.parent.title,
-            "pokemon_id": pokemon.parent.id ,
-            "img_url": request.build_absolute_uri(pokemon.parent.photo.url)
+            'title_ru': pokemon.previous_evolution.title,
+            "pokemon_id": pokemon.previous_evolution.id ,
+            "img_url": request.build_absolute_uri(pokemon.previous_evolution.photo.url)
         }
         pokemon_on_page.setdefault('previous_evolution', previous_evolution)
 
