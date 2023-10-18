@@ -34,7 +34,7 @@ class PokemonEntity(models.Model):
         Pokemon, 
         verbose_name="Покемон",
         on_delete=models.CASCADE,
-        related_name='pokemon_entities')
+        related_name='entities')
     lat = models.FloatField(verbose_name="Широта")
     lon = models.FloatField( verbose_name="Долгота")
     appeared_at = models.DateTimeField(verbose_name="Время появления", null=True)
